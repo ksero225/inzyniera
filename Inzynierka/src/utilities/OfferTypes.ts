@@ -1,4 +1,4 @@
-export interface OfferType {
+export type OfferType = {
   id: number;
   title: string;
   company: string;

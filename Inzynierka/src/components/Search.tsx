@@ -1,3 +1,16 @@
+const SearchFilter = () => {
+  return (
+    <div className="col-sm-12 col-md-6 col-lg">
+      <select id="category" name="category" className="form-select">
+        <option value="Category">Kategoria</option>
+        <option value="a">a</option>
+        <option value="b">b</option>
+        <option value="c">c</option>
+      </select>
+    </div>
+  );
+};
+
 export const Search = () => {
   return (
     <div className="container-xxl py-3 px-3">

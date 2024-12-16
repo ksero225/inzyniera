@@ -1,8 +1,10 @@
-import { OfferList } from "./components/OfferList";
-import Header from "./components/Header";
-import { LoginModal } from "./components/LoginModal";
-import { RegisterModal } from "./components/RegisterModal";
-import { Search } from "./components/Search";
+import {
+  LoginModal,
+  OfferList,
+  RegisterModal,
+  Search,
+  Header,
+} from "./components";
 
 function App() {
   return (

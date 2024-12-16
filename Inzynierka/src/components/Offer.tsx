@@ -1,6 +1,10 @@
 import { OfferType } from "../utilities/OfferTypes";
 
-const Offer = ({ offer }: { offer: OfferType }) => {
+type OfferProps = {
+  offer: OfferType
+}
+
+const Offer = ({ offer }: OfferProps) => {
   const { id, title, company, technologies, age, mode, contractType, salary } =
     offer;
 

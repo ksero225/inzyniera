@@ -14,7 +14,7 @@ const offerExample: OfferType = {
 };
 
 export const OfferList = () => {
-  const [offers, setOffers] = useState<OfferType[]>([offerExample]);
+  const [offers, _setOffers] = useState<OfferType[]>([offerExample]);
 
   return (
     <div className="container-xxl py-3 px-3">

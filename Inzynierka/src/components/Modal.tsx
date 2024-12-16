@@ -1,14 +1,22 @@
 import React from "react";
+import { ComponentProps } from "react";
 
-type FooterButton = {
+// type FooterButton = {
+//   // label: string;
+//   // className?: string;
+//   dataToggle?: string;
+//   dataTarget?: string;
+//   // onClick?: () => void;
+//   // type?: "button" | "submit";
+//   // form?: string;
+// };
+
+type FooterButton = Pick<ComponentProps<"button">, "onClick" | "form" | "className"> & {
+  type?: "button" | "submit";
   label: string;
-  className?: string;
   dataToggle?: string;
   dataTarget?: string;
-  onClick?: () => void;
-  type?: "button" | "submit";
-  form?: string;
-};
+}
 
 type ModalProps = {
   id: string;
