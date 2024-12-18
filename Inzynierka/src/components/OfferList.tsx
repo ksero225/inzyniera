@@ -19,7 +19,7 @@ export const OfferList = () => {
   return (
     <div className="container-xxl py-3 px-3">
       {offers.map((offer) => (
-        <Offer offer={offer}></Offer>
+        <Offer key={offer.id} offer={offer}></Offer>
       ))}
     </div>
   );
