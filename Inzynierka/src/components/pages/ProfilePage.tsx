@@ -6,6 +6,7 @@ import {
   UserTechnologiesTable,
   UserLinksTable,
   UserAboutMeTable,
+  UserExperianceTable,
 } from "./profileTables";
 import { TabButtons } from "./TabButtons";
 
@@ -40,10 +41,11 @@ export const ProfilePage = () => {
               }}
             >
               {activeTab === 1 && <UserInformationTable />}
-              {activeTab === 2 && <UserInterestsTable />}
+              {activeTab === 2 && <UserExperianceTable />}
               {activeTab === 3 && <UserTechnologiesTable />}
               {activeTab === 4 && <UserLinksTable />}
               {activeTab === 5 && <UserAboutMeTable />}
+              {activeTab === 6 && <UserInterestsTable />}
             </div>
           </div>
         </div>

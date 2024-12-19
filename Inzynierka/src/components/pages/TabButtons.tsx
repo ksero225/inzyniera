@@ -24,6 +24,14 @@ export const TabButtons: React.FC<TabButtonsProps> = ({
           }`}
           onClick={() => setActiveTab(2)}
         >
+          Doświadczenie
+        </button>
+        <button
+          className={`btn ${
+            activeTab === 6 ? "btn-primary" : "btn-outline-primary"
+          }`}
+          onClick={() => setActiveTab(6)}
+        >
           Zainteresowania
         </button>
         <button

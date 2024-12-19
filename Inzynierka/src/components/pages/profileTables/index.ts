@@ -5,3 +5,4 @@ export * from "./UserInterestsTable";
 export * from "./UserTechnologiesTable";
 export * from "./UserLinksTable";
 export * from "./UserAboutMeTable";
+export * from "./UserExperienceTable";
