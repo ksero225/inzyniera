@@ -18,18 +18,23 @@ const SelectField = ({ name, id, options, placeholder }: SelectFieldProps) => {
   );
 };
 
-export const Search = ({ onSearch = () => {} }: { onSearch?: (filters: any) => void }) => {
+export const Search = ({
+  onSearch = () => {},
+}: {
+  onSearch?: (filters: any) => void;
+}) => {
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
 
     const filters = {
       userInput: formData.get("userInput")?.toString() || "",
-      category: formData.get("category")?.toString() || "",
       operatingMode: formData.get("operatingMode")?.toString() || "",
       employmentType: formData.get("employmentType")?.toString() || "",
       jobLocation: formData.get("jobLocation")?.toString() || "",
     };
+
+    console.log(filters);
 
     onSearch(filters);
   };
@@ -54,7 +59,7 @@ export const Search = ({ onSearch = () => {} }: { onSearch?: (filters: any) => v
               </div>
             </div>
 
-            {/* Kategoria */}
+            {/* Kategoria
             <div className="col-sm-12 col-md-6 col-lg">
               <SelectField
                 name="category"
@@ -66,7 +71,7 @@ export const Search = ({ onSearch = () => {} }: { onSearch?: (filters: any) => v
                   { value: "Marketing", label: "Marketing" },
                 ]}
               />
-            </div>
+            </div> */}
 
             {/* Tryb pracy */}
             <div className="col-sm-12 col-md-6 col-lg">
@@ -89,9 +94,11 @@ export const Search = ({ onSearch = () => {} }: { onSearch?: (filters: any) => v
                 id="employmentType"
                 placeholder="Rodzaj umowy"
                 options={[
-                  { value: "B2B", label: "B2B" },
+                  { value: "full-time", label: "Pełny etat" },
+                  { value: "part-time", label: "Część etat" },
                   { value: "internship", label: "Staż" },
-                  { value: "mandateContract", label: "Umowa zlecenie" },
+                  { value: "B2B", label: "B2B" },
+                  { value: "mandateContract", label: "Umowa o zlecenie" },
                   { value: "employmentContract", label: "Umowa o pracę" },
                 ]}
               />
@@ -104,9 +111,22 @@ export const Search = ({ onSearch = () => {} }: { onSearch?: (filters: any) => v
                 id="jobLocation"
                 placeholder="Lokalizacja"
                 options={[
-                  { value: "Silesia", label: "Śląsk" },
-                  { value: "Lodz", label: "Łódź" },
-                  { value: "Warsaw", label: "Warszawa" },
+                  { value: "Dolnośląskie", label: "Dolny Śląsk" },
+                  { value: "Kujawsko-Pomorskie", label: "Kujawsko Pomorskie" },
+                  { value: "Lubelskie", label: "Lubelskie" },
+                  { value: "Lubuskie", label: "Lubuskie" },
+                  { value: "Łódzkie", label: "Łódzkie" },
+                  { value: "Malopolskie", label: "Małopolskie" },
+                  { value: "Mazowieckie", label: "Mazowieckie" },
+                  { value: "Opolskie", label: "Opolskie" },
+                  { value: "Podkarpackie", label: "Podkarpackie" },
+                  { value: "Podlaskie", label: "Podlaskie" },
+                  { value: "Pomorskie", label: "Pomorskie" },
+                  { value: "Śląskie", label: "Śląskie" },
+                  { value: "Świętokrzyskie", label: "Świętokrzyskie" },
+                  { value: "Warmińsko-Mazurskie", label: "Warmińsko Mazurskie" },
+                  { value: "Wielkopolskie", label: "Wielkopolskie" },
+                  { value: "Zachodniopomorskie", label: "Zachodniopomorskie" },
                 ]}
               />
             </div>

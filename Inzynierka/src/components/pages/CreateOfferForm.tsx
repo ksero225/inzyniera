@@ -34,7 +34,7 @@ export const CreateOfferForm = () => {
         body: JSON.stringify({
           offerTitle: data.title,
           offerCompany: data.company,
-          offerTechnologies: data.technologies,
+          offerTechnologies: (data.technologies).toLowerCase(),
           offerMode: data.mode,
           offerContractType: data.contractType,
           offerSalary: data.salary,
@@ -61,8 +61,6 @@ export const CreateOfferForm = () => {
       } else {
         const responseData = await response.json();
         console.log("Dodano ofertę pomyślnie: ", responseData);
-
-        window.location.href = "/";
       }
     } catch (error) {
       if (error instanceof Error) {
@@ -209,9 +207,12 @@ export const CreateOfferForm = () => {
                   errors.contractType ? "is-invalid" : ""
                 }`}
               >
+                <option value="employmentContract">Umowa o pracę</option>
                 <option value="full-time">Pełny etat</option>
                 <option value="part-time">Część etatu</option>
-                <option value="contract">Kontrakt</option>
+                <option value="mandateContract">Umowa o zlecenie</option>
+                <option value="B2B">B2B</option>
+                <option value="internship">Staż</option>
               </select>
               {errors.contractType && (
                 <div className="invalid-feedback">

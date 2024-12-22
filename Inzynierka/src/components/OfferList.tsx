@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import ReactPaginate from "react-paginate";
 import { OfferType } from "../utilities/OfferTypes";
 import Offer from "./Offer";
+import { Search } from "./Search";
 
 const PAGE_SIZE: number = 10;
 
@@ -47,13 +48,23 @@ export const OfferList = () => {
   const [offers, setOffers] = useState<OfferType[]>([]); // Domyślnie pusta tablica
   const [totalPages, setTotalPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
+  const [filters, setFilters] = useState({
+    userInput: "",
+    operatingMode: "",
+    employmentType: "",
+    jobLocation: "",
+  });
 
-  const fetchOffers = async (page: number) => {
+  const fetchOffers = async (page: number, appliedFilters: any) => {
     try {
+      const queryParams = new URLSearchParams({
+        page: (page - 1).toString(),
+        size: PAGE_SIZE.toString(),
+        ...appliedFilters,
+      });
+
       const response = await fetch(
-        `http://localhost:8080/api/offer/list?page=${
-          page - 1
-        }&size=${PAGE_SIZE}`
+        `http://localhost:8080/api/offer/list?${queryParams.toString()}`
       );
       const data = await response.json();
       setOffers(data.content); // Aktualizacja stanu z nowymi ofertami
@@ -64,16 +75,24 @@ export const OfferList = () => {
   };
 
   useEffect(() => {
-    fetchOffers(currentPage);
-  }, [currentPage]);
+    fetchOffers(currentPage, filters);
+  }, [currentPage, filters]);
 
   const handlePageChange = (selected: { selected: number }) => {
     const newPage = selected.selected + 1;
     setCurrentPage(newPage); // Ustawiamy nową stronę w stanie
   };
 
+  const handleSearch = (appliedFilters: any) => {
+    setFilters(appliedFilters); // Aktualizujemy filtry
+    setCurrentPage(1); // Resetujemy stronę do pierwszej
+  };
+
   return (
     <div className="container-xxl py-3 px-3">
+      {/* Formularz wyszukiwania */}
+      <Search onSearch={handleSearch} />
+
       {/* Paginacja na górze */}
       <Pagination
         pageCount={totalPages}
