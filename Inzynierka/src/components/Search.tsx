@@ -1,9 +1,45 @@
-export const Search = () => {
+type SelectFieldProps = {
+  name: string;
+  id: string;
+  options: { value: string; label: string }[];
+  placeholder?: string;
+};
+
+const SelectField = ({ name, id, options, placeholder }: SelectFieldProps) => {
+  return (
+    <select name={name} id={id} className="form-select">
+      {placeholder && <option value="">{placeholder}</option>}
+      {options.map((option) => (
+        <option key={option.value} value={option.value}>
+          {option.label}
+        </option>
+      ))}
+    </select>
+  );
+};
+
+export const Search = ({ onSearch = () => {} }: { onSearch?: (filters: any) => void }) => {
+  const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+
+    const filters = {
+      userInput: formData.get("userInput")?.toString() || "",
+      category: formData.get("category")?.toString() || "",
+      operatingMode: formData.get("operatingMode")?.toString() || "",
+      employmentType: formData.get("employmentType")?.toString() || "",
+      jobLocation: formData.get("jobLocation")?.toString() || "",
+    };
+
+    onSearch(filters);
+  };
+
   return (
     <div className="container-xxl py-3 px-3">
       <div className="row">
-        <form>
+        <form onSubmit={handleSearch}>
           <div className="row g-3">
+            {/* Wyszukiwanie po frazie */}
             <div className="col-sm-12 col-md-6 col-lg-4">
               <div className="input-group">
                 <input
@@ -17,48 +53,69 @@ export const Search = () => {
                 />
               </div>
             </div>
+
+            {/* Kategoria */}
             <div className="col-sm-12 col-md-6 col-lg">
-              <select id="category" name="category" className="form-select">
-                <option value="Category">Kategoria</option>
-                <option value="a">a</option>
-                <option value="b">b</option>
-                <option value="c">c</option>
-              </select>
+              <SelectField
+                name="category"
+                id="category"
+                placeholder="Kategoria"
+                options={[
+                  { value: "IT", label: "IT" },
+                  { value: "HR", label: "HR" },
+                  { value: "Marketing", label: "Marketing" },
+                ]}
+              />
             </div>
+
+            {/* Tryb pracy */}
             <div className="col-sm-12 col-md-6 col-lg">
-              <select
-                id="operatingMode"
+              <SelectField
                 name="operatingMode"
-                className="form-select"
-              >
-                <option value="operatingMode">Tryb pracy</option>
-                <option value="remote">Praca zdalana</option>
-                <option value="hybrid">Praca hybrydowa</option>
-                <option value="office">Praca w biurze</option>
-              </select>
+                id="operatingMode"
+                placeholder="Tryb pracy"
+                options={[
+                  { value: "remote", label: "Praca zdalna" },
+                  { value: "hybrid", label: "Praca hybrydowa" },
+                  { value: "office", label: "Praca w biurze" },
+                ]}
+              />
             </div>
+
+            {/* Rodzaj umowy */}
             <div className="col-sm-12 col-md-6 col-lg">
-              <select
+              <SelectField
                 name="employmentType"
                 id="employmentType"
-                className="form-select"
-              >
-                <option value="employmentMode">Rodzaj umowy</option>
-                <option value="employmentMode">B2B</option>
-                <option value="internship">Staż</option>
-                <option value="mandateContract">Umowa o zlecenie</option>
-              </select>
+                placeholder="Rodzaj umowy"
+                options={[
+                  { value: "B2B", label: "B2B" },
+                  { value: "internship", label: "Staż" },
+                  { value: "mandateContract", label: "Umowa zlecenie" },
+                  { value: "employmentContract", label: "Umowa o pracę" },
+                ]}
+              />
             </div>
+
+            {/* Lokalizacja */}
             <div className="col-sm-12 col-md-6 col-lg">
-              <select
+              <SelectField
                 name="jobLocation"
                 id="jobLocation"
-                className="form-select"
-              >
-                <option value="jobLocation">Województwo</option>
-                <option value="locationSlask">Śląsk</option>
-                <option value="jobLodz">Łódź</option>
-              </select>
+                placeholder="Lokalizacja"
+                options={[
+                  { value: "Silesia", label: "Śląsk" },
+                  { value: "Lodz", label: "Łódź" },
+                  { value: "Warsaw", label: "Warszawa" },
+                ]}
+              />
+            </div>
+
+            {/* Przycisk wyszukiwania */}
+            <div className="col-sm-12 col-md-6 col-lg">
+              <button type="submit" className="btn btn-primary w-100">
+                Szukaj
+              </button>
             </div>
           </div>
         </form>

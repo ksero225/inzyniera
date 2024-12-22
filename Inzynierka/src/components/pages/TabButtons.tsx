@@ -1,6 +1,14 @@
+type Tabs =
+  | "details"
+  | "interests"
+  | "tech"
+  | "expierience"
+  | "links"
+  | "about";
+
 type TabButtonsProps = {
-  activeTab: number;
-  setActiveTab: (tab: number) => void;
+  activeTab: Tabs;
+  setActiveTab: (tab: Tabs) => void;
 };
 
 export const TabButtons: React.FC<TabButtonsProps> = ({
@@ -12,49 +20,49 @@ export const TabButtons: React.FC<TabButtonsProps> = ({
       <div className="btn-group mt-3 mb-3">
         <button
           className={`btn ${
-            activeTab === 1 ? "btn-primary" : "btn-outline-primary"
+            activeTab === "details" ? "btn-primary" : "btn-outline-primary"
           }`}
-          onClick={() => setActiveTab(1)}
+          onClick={() => setActiveTab("details")}
         >
           Dane użytkownika
         </button>
         <button
           className={`btn ${
-            activeTab === 2 ? "btn-primary" : "btn-outline-primary"
+            activeTab === "expierience" ? "btn-primary" : "btn-outline-primary"
           }`}
-          onClick={() => setActiveTab(2)}
+          onClick={() => setActiveTab("expierience")}
         >
           Doświadczenie
         </button>
         <button
           className={`btn ${
-            activeTab === 6 ? "btn-primary" : "btn-outline-primary"
+            activeTab === "interests" ? "btn-primary" : "btn-outline-primary"
           }`}
-          onClick={() => setActiveTab(6)}
+          onClick={() => setActiveTab("interests")}
         >
           Zainteresowania
         </button>
         <button
           className={`btn ${
-            activeTab === 3 ? "btn-primary" : "btn-outline-primary"
+            activeTab === "tech" ? "btn-primary" : "btn-outline-primary"
           }`}
-          onClick={() => setActiveTab(3)}
+          onClick={() => setActiveTab("tech")}
         >
           Technologie
         </button>
         <button
           className={`btn ${
-            activeTab === 4 ? "btn-primary" : "btn-outline-primary"
+            activeTab === "links" ? "btn-primary" : "btn-outline-primary"
           }`}
-          onClick={() => setActiveTab(4)}
+          onClick={() => setActiveTab("links")}
         >
           Linki
         </button>
         <button
           className={`btn ${
-            activeTab === 5 ? "btn-primary" : "btn-outline-primary"
+            activeTab === "about" ? "btn-primary" : "btn-outline-primary"
           }`}
-          onClick={() => setActiveTab(5)}
+          onClick={() => setActiveTab("about")}
         >
           O mnie
         </button>

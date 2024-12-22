@@ -1,23 +1,35 @@
-import { useState } from "react";
+import { useForm } from "react-hook-form";
 import Modal from "./Modal";
+import { useAuth } from "../AuthProvider";
+
+type LoginFormData = {
+  username: string;
+  password: string;
+};
 
 export const LoginModal = () => {
-  const [usernameError, setUsernameError] = useState(""); // Błąd dla loginu
-  const [passwordError, setPasswordError] = useState(""); // Błąd dla hasła
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setError,
+    clearErrors,
+  } = useForm<LoginFormData>();
 
-  // Funkcja obsługująca wysyłanie formularza
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const { login } = useAuth();
 
-    const form = event.target as HTMLFormElement;
-    const userLogin = (form.username as HTMLInputElement).value;
-    const userPassword = (form.password as HTMLInputElement).value;
+  const handleLogin = async () => {
+    // Przykład logowania
+    const isAuthenticated = true; // Faktyczna logika logowania
+    if (isAuthenticated) {
+      login();
+    }
+  };
 
-    // Resetujemy poprzednie błędy
-    setUsernameError("");
-    setPasswordError("");
+  const onSubmit = async (data: LoginFormData) => {
+    const { username, password } = data;
+    clearErrors();
 
-    // Wysyłanie żądania POST do endpointu logowania
     try {
       const response = await fetch("http://localhost:8080/api/auth/login", {
         method: "POST",
@@ -25,30 +37,32 @@ export const LoginModal = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          userLogin,
-          userPassword,
+          userLogin: username,
+          userPassword: password,
         }),
       });
 
       if (!response.ok) {
         if (response.status === 401) {
-          // Zakładamy, że backend zwraca specyficzne komunikaty dla loginu i hasła
           const errorData = await response.json();
           if (errorData.message.includes("login")) {
-            setUsernameError("Invalid login");
+            setError("username", { type: "manual", message: "Invalid login" });
           }
           if (errorData.message.includes("password")) {
-            setPasswordError("Invalid password");
+            setError("password", {
+              type: "manual",
+              message: "Invalid password",
+            });
           }
         } else {
           throw new Error("An unexpected error occurred.");
         }
       } else {
-        const data = await response.json();
-        console.log("Logged in successfully:", data);
-        // Możesz zapisać dane logowania, token, itd.
+        const responseData = await response.json();
+        console.log("Logged in successfully:", responseData);
+        handleLogin(); // Wywołaj funkcję zamykającą modal
       }
-    } catch (error: unknown) {
+    } catch (error) {
       if (error instanceof Error) {
         console.error("Error:", error.message);
       }
@@ -63,36 +77,34 @@ export const LoginModal = () => {
         <form
           className="needs-validation"
           id="loginForm"
-          onSubmit={handleSubmit} // Przypisujemy funkcję do onSubmit
+          onSubmit={handleSubmit(onSubmit)}
         >
           <div className="form-floating mb-3">
             <input
               type="text"
-              name="username"
+              {...register("username", { required: "Login is required" })}
               id="username"
-              className={`form-control ${usernameError ? "is-invalid" : ""}`} // Dodajemy klasę 'is-invalid' jeśli jest błąd
+              className={`form-control ${errors.username ? "is-invalid" : ""}`}
               placeholder="Username"
               autoComplete="off"
-              required
             />
             <label htmlFor="username">Login</label>
-            {usernameError && (
-              <div className="invalid-feedback">{usernameError}</div>
+            {errors.username && (
+              <div className="invalid-feedback">{errors.username.message}</div>
             )}
           </div>
           <div className="form-floating mb-3">
             <input
               type="password"
+              {...register("password", { required: "Password is required" })}
               id="password"
-              name="password"
-              className={`form-control ${passwordError ? "is-invalid" : ""}`} // Dodajemy klasę 'is-invalid' jeśli jest błąd
+              className={`form-control ${errors.password ? "is-invalid" : ""}`}
               placeholder="Password"
               autoComplete="off"
-              required
             />
             <label htmlFor="password">Hasło</label>
-            {passwordError && (
-              <div className="invalid-feedback">{passwordError}</div>
+            {errors.password && (
+              <div className="invalid-feedback">{errors.password.message}</div>
             )}
           </div>
         </form>
@@ -111,6 +123,6 @@ export const LoginModal = () => {
           form: "loginForm", // Formularz zostanie wysłany przy kliknięciu
         },
       ]}
-    ></Modal>
+    />
   );
 };

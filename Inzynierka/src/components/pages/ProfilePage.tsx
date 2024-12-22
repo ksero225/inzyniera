@@ -10,8 +10,17 @@ import {
 } from "./profileTables";
 import { TabButtons } from "./TabButtons";
 
+type Tabs =
+  | "details"
+  | "interests"
+  | "tech"
+  | "expierience"
+  | "links"
+  | "about";
+
 export const ProfilePage = () => {
-  const [activeTab, setActiveTab] = useState(1); // 1: Dane użytkownika, 2: Zainteresowania, 3: Technologie, 4: Linki, 5: Krótki opis? O mnie?
+  const [activeTab, setActiveTab] = useState<Tabs>("details");
+  // 1: Dane użytkownika, 2: Zainteresowania, 3: Technologie, 4: Linki, 5: Krótki opis? O mnie?
 
   return (
     <>
@@ -40,12 +49,12 @@ export const ProfilePage = () => {
                 transition: "0.3s ease-in-out", // Opcjonalna animacja
               }}
             >
-              {activeTab === 1 && <UserInformationTable />}
-              {activeTab === 2 && <UserExperianceTable />}
-              {activeTab === 3 && <UserTechnologiesTable />}
-              {activeTab === 4 && <UserLinksTable />}
-              {activeTab === 5 && <UserAboutMeTable />}
-              {activeTab === 6 && <UserInterestsTable />}
+              {activeTab === "details" && <UserInformationTable />}
+              {activeTab === "expierience" && <UserExperianceTable />}
+              {activeTab === "tech" && <UserTechnologiesTable />}
+              {activeTab === "links" && <UserLinksTable />}
+              {activeTab === "about" && <UserAboutMeTable />}
+              {activeTab === "interests" && <UserInterestsTable />}
             </div>
           </div>
         </div>

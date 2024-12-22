@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom";
+import { useAuth } from "./AuthProvider";
 
 export const Header = () => {
+  const { isLoggedIn, logout } = useAuth();
+
   return (
     <header className="bg-dark text-white py-3 shadow">
       <div className="container">
@@ -49,31 +52,49 @@ export const Header = () => {
                 </li>
               </ul>
 
-              {/* Przycisk Zaloguj w burger menu */}
+              {/* Przycisk Zaloguj/Wyloguj */}
               <div className="d-lg-none">
+                {isLoggedIn ? (
+                  <button
+                    type="button"
+                    className="btn btn-danger w-100 mt-2"
+                    onClick={logout}
+                  >
+                    🚪 Wyloguj
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    className="btn btn-outline-warning w-100 mt-2"
+                    data-bs-toggle="modal"
+                    data-bs-target="#loginContainer"
+                  >
+                    🔑 Zaloguj
+                  </button>
+                )}
+              </div>
+            </div>
+
+            {/* Przycisk Zaloguj/Wyloguj na dużych ekranach */}
+            <div className="d-none d-lg-block">
+              {isLoggedIn ? (
                 <button
                   type="button"
-                  className="btn btn-outline-warning w-100 mt-2"
-                  id="loginModal"
+                  className="btn btn-danger"
+                  onClick={logout}
+                >
+                  🚪 Wyloguj
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  className="btn btn-outline-warning"
                   data-bs-toggle="modal"
                   data-bs-target="#loginContainer"
                 >
                   🔑 Zaloguj
                 </button>
-              </div>
-            </div>
-
-            {/* Przycisk Zaloguj na dużych ekranach */}
-            <div className="d-none d-lg-block">
-              <button
-                type="button"
-                className="btn btn-outline-warning"
-                id="loginModal"
-                data-bs-toggle="modal"
-                data-bs-target="#loginContainer"
-              >
-                🔑 Zaloguj
-              </button>
+              )}
             </div>
           </div>
         </nav>

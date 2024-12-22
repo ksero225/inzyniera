@@ -1,10 +1,10 @@
 export type OfferType = {
-  id: number;
-  title: string;
-  company: string;
-  technologies: string;
-  age: string;
-  mode: string;
-  contractType: string;
-  salary: string;
-}
+  offerId: number;
+  offerTitle: string;
+  offerVoivodeship: string;
+  offerCompany: string;
+  offerTechnologies: string;
+  offerMode: string;
+  offerContractType: string;
+  offerSalary: string;
+};
