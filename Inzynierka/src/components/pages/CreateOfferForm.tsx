@@ -34,11 +34,12 @@ export const CreateOfferForm = () => {
         body: JSON.stringify({
           offerTitle: data.title,
           offerCompany: data.company,
-          offerTechnologies: (data.technologies).toLowerCase(),
+          offerTechnologies: data.technologies,
           offerMode: data.mode,
           offerContractType: data.contractType,
           offerSalary: data.salary,
           offerVoivodeship: data.voivodeship,
+          offerDescription: data.description,
         }),
       });
 

@@ -9,3 +9,4 @@ export * from "./pages/HomePage";
 export * from "./pages/ProfilePage";
 export * from "./pages/CreateOfferForm";
 export * from "./pages/AboutWebsite";
+export * from "./pages/OfferDetailPage";

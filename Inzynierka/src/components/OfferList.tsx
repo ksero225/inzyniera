@@ -23,7 +23,7 @@ const Pagination = ({
   return (
     <div className="d-flex justify-content-center">
       <ReactPaginate
-        pageCount={pageCount == 0 ? pageCount + 1 : pageCount}
+        pageCount={pageCount === 0 ? pageCount + 1 : pageCount}
         pageRangeDisplayed={5}
         marginPagesDisplayed={2}
         onPageChange={onPageChange}
@@ -45,7 +45,7 @@ const Pagination = ({
 };
 
 export const OfferList = () => {
-  const [offers, setOffers] = useState<OfferType[]>([]); // Domyślnie pusta tablica
+  const [offers, setOffers] = useState<OfferType[]>([]);
   const [totalPages, setTotalPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [filters, setFilters] = useState({
@@ -54,8 +54,12 @@ export const OfferList = () => {
     employmentType: "",
     jobLocation: "",
   });
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const fetchOffers = async (page: number, appliedFilters: any) => {
+    setIsLoading(true); // Rozpoczęcie ładowania
+    setError(""); // Reset błędu
     try {
       const queryParams = new URLSearchParams({
         page: (page - 1).toString(),
@@ -66,11 +70,17 @@ export const OfferList = () => {
       const response = await fetch(
         `http://localhost:8080/api/offer/list?${queryParams.toString()}`
       );
+      if (!response.ok) {
+        throw new Error("Nie udało się pobrać ofert.");
+      }
+
       const data = await response.json();
       setOffers(data.content); // Aktualizacja stanu z nowymi ofertami
       setTotalPages(data.totalPages); // Aktualizacja liczby stron
-    } catch (error) {
-      console.error("Błąd podczas pobierania ofert:", error);
+    } catch (error: any) {
+      setError(error.message || "Wystąpił błąd podczas ładowania ofert.");
+    } finally {
+      setIsLoading(false); // Koniec ładowania
     }
   };
 
@@ -80,12 +90,12 @@ export const OfferList = () => {
 
   const handlePageChange = (selected: { selected: number }) => {
     const newPage = selected.selected + 1;
-    setCurrentPage(newPage); // Ustawiamy nową stronę w stanie
+    setCurrentPage(newPage);
   };
 
   const handleSearch = (appliedFilters: any) => {
-    setFilters(appliedFilters); // Aktualizujemy filtry
-    setCurrentPage(1); // Resetujemy stronę do pierwszej
+    setFilters(appliedFilters);
+    setCurrentPage(1);
   };
 
   return (
@@ -93,26 +103,44 @@ export const OfferList = () => {
       {/* Formularz wyszukiwania */}
       <Search onSearch={handleSearch} />
 
-      {/* Paginacja na górze */}
-      <Pagination
-        pageCount={totalPages}
-        onPageChange={handlePageChange}
-        currentPage={currentPage}
-      />
-
-      {/* Sprawdzamy, czy offers nie jest undefined lub null */}
-      {offers && offers.length > 0 ? (
-        offers.map((offer) => <Offer key={offer.offerId} offer={offer} />)
+      {/* Loader lub komunikat błędu */}
+      {isLoading ? (
+        <div
+          className="d-flex justify-content-center align-items-center"
+          style={{ height: "50vh" }}
+        >
+          <div className="spinner-border text-primary" role="status">
+            <span className="visually-hidden">Ładowanie...</span>
+          </div>
+        </div>
+      ) : error ? (
+        <div className="text-center text-danger py-3">
+          <p>Błąd z połączeniem się z serwerem</p>
+        </div>
       ) : (
-        <p>No offers available</p> // Komunikat, jeśli nie ma ofert
-      )}
+        <>
+          {/* Paginacja na górze */}
+          <Pagination
+            pageCount={totalPages}
+            onPageChange={handlePageChange}
+            currentPage={currentPage}
+          />
 
-      {/* Paginacja na dole */}
-      <Pagination
-        pageCount={totalPages}
-        onPageChange={handlePageChange}
-        currentPage={currentPage}
-      />
+          {/* Sprawdzamy, czy offers nie jest undefined lub null */}
+          {offers && offers.length > 0 ? (
+            offers.map((offer) => <Offer key={offer.offerId} offer={offer} />)
+          ) : (
+            <p className="text-center">Brak dostępnych ofert</p>
+          )}
+
+          {/* Paginacja na dole */}
+          <Pagination
+            pageCount={totalPages}
+            onPageChange={handlePageChange}
+            currentPage={currentPage}
+          />
+        </>
+      )}
     </div>
   );
 };

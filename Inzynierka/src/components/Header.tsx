@@ -67,7 +67,7 @@ export const Header = () => {
                     type="button"
                     className="btn btn-outline-warning w-100 mt-2"
                     data-bs-toggle="modal"
-                    data-bs-target="#loginContainer"
+                    data-bs-target="#loginContainerr"
                   >
                     🔑 Zaloguj
                   </button>
@@ -91,6 +91,7 @@ export const Header = () => {
                   className="btn btn-outline-warning"
                   data-bs-toggle="modal"
                   data-bs-target="#loginContainer"
+                  data-dismiss="modal"
                 >
                   🔑 Zaloguj
                 </button>

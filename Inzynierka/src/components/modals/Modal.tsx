@@ -52,6 +52,7 @@ const Modal = ({
           <div className="modal-footer">
             {footerButtons.map((button, index) => (
               <button
+                // data-bs-dismiss="modal"
                 key={index}
                 className={`btn ${button.className}`}
                 data-bs-toggle={button.dataToggle || ""}

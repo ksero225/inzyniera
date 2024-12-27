@@ -1,6 +1,8 @@
 import { useForm } from "react-hook-form";
-import Modal from "./Modal";
+import Modal from "./Modal";``
 import { useAuth } from "../AuthProvider";
+import {Modal as BootstrapModal} from "bootstrap";
+import { useCallback } from "react";
 
 type LoginFormData = {
   username: string;
@@ -23,8 +25,22 @@ export const LoginModal = () => {
     const isAuthenticated = true; // Faktyczna logika logowania
     if (isAuthenticated) {
       login();
+      hide();
     }
   };
+
+  const hide = useCallback(() => {
+    const modalElement = document.getElementById('loginContainer')
+    if (modalElement) {
+      const listener = () => document.body.querySelector(".modal-backdrop")?.remove()
+      modalElement.addEventListener("hide.bs.modal", listener)
+      BootstrapModal.getInstance(modalElement)?.hide()
+      return () => {
+        modalElement.removeEventListener("hide.bs.modal", listener)
+      }
+    }
+
+  }, [])
 
   const onSubmit = async (data: LoginFormData) => {
     const { username, password } = data;
@@ -58,8 +74,6 @@ export const LoginModal = () => {
           throw new Error("An unexpected error occurred.");
         }
       } else {
-        const responseData = await response.json();
-        console.log("Logged in successfully:", responseData);
         handleLogin(); // Wywołaj funkcję zamykającą modal
       }
     } catch (error) {
@@ -114,7 +128,8 @@ export const LoginModal = () => {
           label: "Rejestracja",
           className: "btn btn-warning me-auto",
           dataToggle: "modal",
-          dataTarget: "#registerModal", // Przełącz na modal rejestracji
+
+          dataTarget: "#registerModal_", // Przełącz na modal rejestracji
         },
         {
           label: "Login",

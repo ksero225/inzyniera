@@ -8,6 +8,7 @@ import {
   RegisterModal,
   AboutWebsite,
   CreateOfferForm,
+  OfferDetailPage,
 } from "./components";
 import { AuthProvider } from "./components/AuthProvider";
 
@@ -24,6 +25,7 @@ function App() {
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/offerForm" element={<CreateOfferForm />} />
           <Route path="/aboutWebsite" element={<AboutWebsite />} />
+          <Route path="/offer/:offerId" element={<OfferDetailPage />} />
         </Routes>
       </Router>
     </AuthProvider>

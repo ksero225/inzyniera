@@ -7,4 +7,5 @@ export type OfferType = {
   offerMode: string;
   offerContractType: string;
   offerSalary: string;
+  offerDescription: string;
 };

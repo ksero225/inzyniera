@@ -58,8 +58,7 @@ export const RegisterModal = () => {
           throw new Error("Rejestracja nie powiodła się. Spróbuj ponownie.");
         }
       } else {
-        const responseData = await response.json();
-        console.log("Zarejestrowano pomyślnie:", responseData);
+        console.log("Zarejestrowano pomyślnie");
       }
     } catch (error) {
       if (error instanceof Error) {
